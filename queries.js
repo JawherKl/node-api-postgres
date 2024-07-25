@@ -6,7 +6,6 @@ const pool = new Pool({
   password: 'test',
   port: 5432,
 })
-//DATABASE_URL="postgresql://test2:test@172.20.0.18:5432/gocrud"
 
 const getUsers = (request, response) => {
   pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
