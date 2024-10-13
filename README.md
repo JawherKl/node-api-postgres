@@ -33,7 +33,8 @@ npm install
    Ensure you have PostgreSQL installed and running.
    Create a database and a users table as per your requirements.
    
-4. Configure Database Connection: Update the queries.js file to set up your PostgreSQL connection.
+4. **Configure Database Connection**:
+   Update the queries.js file to set up your PostgreSQL connection
 
 ## Usage
 Start the server:
