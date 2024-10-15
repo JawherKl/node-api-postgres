@@ -80,5 +80,5 @@ The server will run on [http://localhost:3000].
   This project is licensed under the MIT License. See the LICENSE file for details.
 
 ## Acknowledgments
-  . Thanks to the contributors and the open-source community for their support.
-  . Special thanks to the maintainers of the libraries used in this project.
+  * Thanks to the contributors and the open-source community for their support.
+  * Special thanks to the maintainers of the libraries used in this project.
