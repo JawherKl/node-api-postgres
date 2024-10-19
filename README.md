@@ -24,6 +24,7 @@ This is a simple RESTful API built with Node.js and Express, designed to interac
    ```bash
    git clone https://github.com/JawherKl/node-api-postgres.git
    cd node-api-postgres
+   ```
 
 2. **Install dependencies**:
 bash
