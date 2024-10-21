@@ -11,7 +11,6 @@ This is a simple RESTful API built with Node.js and Express, designed to interac
 - **Delete User**: Remove a user from the database.
 
 ## Technologies Used
-
 - Node.js
 - Express
 - PostgreSQL
@@ -27,8 +26,9 @@ This is a simple RESTful API built with Node.js and Express, designed to interac
    ```
 
 2. **Install dependencies**:
-bash
-npm install
+   ```bash
+   npm install
+   ```
 
 3. **Set up PostgreSQL**:
    Ensure you have PostgreSQL installed and running.
@@ -39,7 +39,6 @@ npm install
 
 ## Usage
 Start the server:
-
   ```bash
   node index.js
   ```
@@ -69,6 +68,7 @@ The server will run on [http://localhost:3000].
   ```bash
   curl -X PUT http://localhost:3000/users/1 -H "Content-Type: application/json" -d '{"name": "Jane Doe"}'
   ```
+
 ### Delete User
   ```bash
   curl -X DELETE http://localhost:3000/users/1
