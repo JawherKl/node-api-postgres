@@ -1,9 +1,7 @@
 # Node.js API with PostgreSQL
-
 This is a simple RESTful API built with Node.js and Express, designed to interact with a PostgreSQL database. The API provides endpoints for managing user data.
 
 ## Features
-
 - **Get All Users**: Retrieve a list of all users.
 - **Get User by ID**: Retrieve a specific user by their ID.
 - **Create User**: Add a new user to the database.
