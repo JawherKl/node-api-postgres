@@ -81,3 +81,8 @@ The server will run on [http://localhost:3000].
 ## Acknowledgments
   * Thanks to the contributors and the open-source community for their support.
   * Special thanks to the maintainers of the libraries used in this project.
+
+### Generate a Random JWT Secret Key
+``` bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
