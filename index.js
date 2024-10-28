@@ -1,4 +1,7 @@
 require('dotenv').config();
+
+const multer = require('multer');
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
@@ -6,6 +9,8 @@ const rateLimit = require('express-rate-limit');
 const userRoutes = require('./routes/userRoutes');
 const loginRoutes = require('./routes/loginRoutes');
 const errorHandler = require('./middleware/errorHandler');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -16,8 +21,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Rate Limiting
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
-app.use(limiter);
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
+
+app.use(globalLimiter);
 
 // Routes
 app.use('/users', userRoutes);
@@ -35,6 +44,44 @@ const loginLimiter = rateLimit({
 });
 
 app.use('/login', loginLimiter);
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage });
+
+app.post('/users/:id/profile-picture', upload.single('profilePicture'), (req, res) => {
+  const id = parseInt(req.params.id);
+  const picturePath = req.file.path;
+
+  pool.query('UPDATE users SET profile_picture = $1 WHERE id = $2', [picturePath, id], (error) => {
+    if (error) {
+      throw error;
+    }
+    res.status(200).send(`Profile picture updated for user ID: ${id}`);
+  });
+});
+
+const swaggerOptions = {
+  swaggerDefinition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'User API',
+      version: '1.0.0',
+      description: 'User management API',
+    },
+  },
+  apis: ['./routes/*.js'], // path where API docs are located
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
