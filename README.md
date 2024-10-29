@@ -65,9 +65,9 @@ The server will run on [http://localhost:3000].
    ```
 
 ### Create User
-```bash
-curl -X POST http://localhost:3000/users -H "Content-Type: application/json" -d '{"name": "John Doe", "email": "john@example.com"}'
-```
+   ```bash
+   curl -X POST http://localhost:3000/users -H "Content-Type: application/json" -d '{"name": "John Doe", "email": "john@example.com"}'
+   ```
 
 ### Update User
    ```bash
