@@ -18,7 +18,6 @@ This is a simple RESTful API built with Node.js and Express, designed to interac
 - JSON Web Token (JWT)
 
 ## Installation
-
 1. **Clone the repository**:
 
    ```bash
