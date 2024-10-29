@@ -60,9 +60,9 @@ The server will run on [http://localhost:3000].
 
 ## Example Requests
 ### Get All Users
-```bash
-curl -X GET http://localhost:3000/users
-```
+   ```bash
+   curl -X GET http://localhost:3000/users
+   ```
 
 ### Create User
 ```bash
