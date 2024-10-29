@@ -33,7 +33,7 @@ This is a simple RESTful API built with Node.js and Express, designed to interac
    Ensure you have PostgreSQL installed and running. Create a database and a `users` table as per your requirements.
    
 4. **Configure Database Connection**:
-   Update the `queries.js` file to set up your PostgreSQL connection details.
+   Update the `db.js` file to set up your PostgreSQL connection details.
 
 5. **Generate a Random JWT Secret Key** (Optional):
    If you want to generate a random JWT secret key, you can use:
