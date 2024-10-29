@@ -70,14 +70,14 @@ curl -X POST http://localhost:3000/users -H "Content-Type: application/json" -d 
 ```
 
 ### Update User
-```bash
-curl -X PUT http://localhost:3000/users/1 -H "Content-Type: application/json" -d '{"name": "Jane Doe"}'
-```
+   ```bash
+   curl -X PUT http://localhost:3000/users/1 -H "Content-Type: application/json" -d '{"name": "Jane Doe"}'
+   ```
 
 ### Delete User
-```bash
-curl -X DELETE http://localhost:3000/users/1
-```
+   ```bash
+   curl -X DELETE http://localhost:3000/users/1
+   ```
 
 ### Authenticate User
    ```bash
