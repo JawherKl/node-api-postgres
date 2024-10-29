@@ -80,14 +80,14 @@ curl -X DELETE http://localhost:3000/users/1
 ```
 
 ### Authenticate User
-```bash
-curl -X POST http://localhost:3000/login -H "Content-Type: application/json" -d '{"email": "john@example.com", "password": "your_password"}'
-```
+   ```bash
+   curl -X POST http://localhost:3000/login -H "Content-Type: application/json" -d '{"email": "john@example.com", "password": "your_password"}'
+   ```
 
 ### Access Protected Route
-```bash
-curl -X GET http://localhost:3000/users -H "Authorization: Bearer your_jwt_token"
-```
+   ```bash
+   curl -X GET http://localhost:3000/users -H "Authorization: Bearer your_jwt_token"
+   ```
 
 ## Contributing
 Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
