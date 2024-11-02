@@ -1,5 +1,4 @@
 # Node.js API with PostgreSQL
-
 This is a simple RESTful API built with Node.js and Express, designed to interact with a PostgreSQL database. The API provides endpoints for managing user data and includes authentication features.
 
 ## Features
