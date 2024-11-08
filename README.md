@@ -61,6 +61,7 @@ The server will run on [http://localhost:3000].
 - **POST /login** - Authenticates a user and returns a JWT (requires JSON body with email and password).
 
 ## Example Requests
+
 ### Get All Users
    ```bash
    curl -X GET http://localhost:3000/users
