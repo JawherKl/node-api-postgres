@@ -1,4 +1,5 @@
 # Node.js API with PostgreSQL
+
 ![nodepost](https://github.com/user-attachments/assets/6f206c6e-dea0-4045-8baa-a04e74a5fbf8)
 
 This is a simple RESTful API built with Node.js and Express, designed to interact with a PostgreSQL database. The API provides endpoints for managing user data and includes authentication features.
