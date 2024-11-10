@@ -48,7 +48,6 @@ Start the server:
   ```bash
   node index.js
   ```
-
 The server will run on [http://localhost:3000].
 
 ## API Endpoints:
