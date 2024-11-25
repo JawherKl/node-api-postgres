@@ -55,14 +55,22 @@ This is a simple RESTful API built with Node.js and Express, designed to interac
    );
    ```
 ### Explanation of Columns:
-1.`id`: A unique identifier for each user (auto-incrementing).
-2.`name`: The user's name, with a maximum length of 100 characters.
-3.`email`: A unique email address for each user, with a maximum length of 255 characters.
-4.`password`: A hashed password stored securely.
-5.`role`: The role of the user, e.g., user, admin. Default is user.
-6.`created_at`: A timestamp of when the record was created.
-7.`updated_at`: A timestamp of the last update (auto-updates on record modification).
-8.`deleted_at`: A nullable field to mark the user as deleted without removing the record.
+1. `id`: A unique identifier for each user (auto-incrementing).
+
+2. `name`: The user's name, with a maximum length of 100 characters.
+
+3. `email`: A unique email address for each user, with a maximum length of 255 characters.
+
+4. `password`: A hashed password stored securely.
+
+5. `role`: The role of the user, e.g., user, admin. Default is user
+
+6. `created_at`: A timestamp of when the record was created.
+
+7. `updated_at`: A timestamp of the last update (auto-updates on record modification).
+
+8. `deleted_at`: A nullable field to mark the user as deleted without removing the record.
+
 ## Usage
 Start the server:
   ```bash
