@@ -41,7 +41,28 @@ This is a simple RESTful API built with Node.js and Express, designed to interac
    ```bash
    node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
    ```
-
+## Inject Table
+   ``` sql
+   CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) DEFAULT 'user', -- Role-based access control
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP NULL -- For soft delete functionality
+   );
+   ```
+### Explanation of Columns:
+1.`id`: A unique identifier for each user (auto-incrementing).
+2.`name`: The user's name, with a maximum length of 100 characters.
+3.`email`: A unique email address for each user, with a maximum length of 255 characters.
+4.`password`: A hashed password stored securely.
+5.`role`: The role of the user, e.g., user, admin. Default is user.
+6.`created_at`: A timestamp of when the record was created.
+7.`updated_at`: A timestamp of the last update (auto-updates on record modification).
+8.`deleted_at`: A nullable field to mark the user as deleted without removing the record.
 ## Usage
 Start the server:
   ```bash
