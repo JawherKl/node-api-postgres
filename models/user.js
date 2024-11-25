@@ -34,10 +34,15 @@ class User {
     return result.rows[0].id;
   }
 
-  static async update(id, { name, email }) {
+  static async update(id, { name, email, password }) {
+    // Hash the new password before updating
+    const hashedPassword = await bcrypt.hash(password, 10);
+    
+    // Update query includes updated_at column
+    const updatedAt = new Date(); // Current timestamp
     await pool.query(
-      'UPDATE users SET name = $1, email = $2 WHERE id = $3',
-      [name, email, id]
+      'UPDATE users SET name = $1, email = $2, password = $3, updated_at = $4 WHERE id = $5',
+      [name, email, hashedPassword, updatedAt, id]
     );
   }
 
