@@ -10,7 +10,7 @@ const userRoutes = require('./routes/userRoutes');
 const loginRoutes = require('./routes/loginRoutes');
 const errorHandler = require('./middleware/errorHandler');
 const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
+const { swaggerUi, swaggerSpec } = require('./config/swagger'); // Import Swagger UI
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -24,9 +24,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests, please try again later.',
+  headers: true, // Sends the rate limit info in the response headers
 });
 
 app.use(globalLimiter);
+
+const cors = require('cors');
+app.use(cors({
+  origin: 'http://localhost:3000/api-docs',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],  // Make sure Authorization is allowed
+}));
+
+// Serve Swagger documentation at the /api-docs route
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes
 app.use('/users', userRoutes);
