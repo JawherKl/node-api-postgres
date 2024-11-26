@@ -1,4 +1,4 @@
-# Node.js API with PostgreSQL
+# Express - Node.js API with PostgreSQL
 
 ![nodepost](https://github.com/user-attachments/assets/6f206c6e-dea0-4045-8baa-a04e74a5fbf8)
 
