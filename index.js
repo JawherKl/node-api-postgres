@@ -1,5 +1,4 @@
-require('dotenv').config();
-
+const dotenv = require('dotenv');
 const multer = require('multer');
 const path = require('path');
 const express = require('express');
@@ -12,8 +11,12 @@ const errorHandler = require('./middleware/errorHandler');
 const swaggerJsDoc = require('swagger-jsdoc');
 const { swaggerUi, swaggerSpec } = require('./config/swagger'); // Import Swagger UI
 
+dotenv.config();
+
 const app = express();
 const port = process.env.PORT || 3000;
+
+app.use(express.json());
 
 // Middleware
 app.use(helmet());
@@ -95,6 +98,11 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.listen(port, () => {
-  console.log(`App running on port ${port}.`);
-});
+// Conditionally start the server only if this file is the entry point
+if (require.main === module) {
+  app.listen(port, () => {
+    console.log(`App running on port ${port}.`);
+  });
+}
+
+module.exports = app;

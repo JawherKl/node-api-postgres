@@ -1,0 +1,7 @@
+{
+  "extension": [".mjs"], 
+  "reporter": ["text", "html"],
+  "all": true,
+  "include": ["src/**/*.mjs"], 
+  "exclude": ["node_modules", "test/**/*.test.mjs"]
+}
