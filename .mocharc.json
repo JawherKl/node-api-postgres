@@ -1,0 +1,6 @@
+{
+    "extension": ["mjs"],
+    "spec": "test/**/*.test.mjs", 
+    "require": [], 
+    "timeout": 5000
+}
