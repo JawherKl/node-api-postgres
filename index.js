@@ -43,6 +43,8 @@ app.use(cors({
 // Serve Swagger documentation at the /api-docs route
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Routes
 app.use('/users', userRoutes);
 
