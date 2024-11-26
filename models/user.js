@@ -28,11 +28,14 @@ class User {
     return result.rows[0];
   }
 
-  static async create({ name, email, password }) {
+  static async create({ name, email, password, picture }) {
+    if (!password) {
+      throw new Error("Password is required");
+    }
     const hashedPassword = await bcrypt.hash(password, 10);
     const result = await pool.query(
-      'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING id',
-      [name, email, hashedPassword]
+      'INSERT INTO users (name, email, password, picture) VALUES ($1, $2, $3, $4) RETURNING id',
+      [name, email, hashedPassword, picture]
     );
     return result.rows[0].id;
   }

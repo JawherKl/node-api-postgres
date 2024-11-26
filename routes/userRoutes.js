@@ -2,6 +2,8 @@ const express = require('express');
 const userController = require('../controllers/userController');
 const authenticateToken = require('../middleware/auth');
 const authorize = require('../middleware/authorize');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 const router = express.Router();
 
@@ -118,7 +120,7 @@ router.get('/:id', authenticateToken, userController.getUserById);
  *       500:
  *         description: Server error
  */
-router.post('/', authenticateToken, userController.createUser);
+router.post('/', authenticateToken, upload.single('picture'), userController.createUser);
 
 /**
  * @swagger
