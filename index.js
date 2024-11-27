@@ -10,6 +10,8 @@ const loginRoutes = require('./routes/loginRoutes');
 const errorHandler = require('./middleware/errorHandler');
 const swaggerJsDoc = require('swagger-jsdoc');
 const { swaggerUi, swaggerSpec } = require('./config/swagger'); // Import Swagger UI
+const metricsRoutes = require('./routes/metricsRoutes');
+const { trackRequests } = require('./controllers/metricsController');
 
 dotenv.config();
 
@@ -22,6 +24,7 @@ app.use(express.json());
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(trackRequests);
 
 // Rate Limiting
 const globalLimiter = rateLimit({
@@ -50,6 +53,9 @@ app.use('/users', userRoutes);
 
 // Use login routes
 app.use('/', loginRoutes);
+
+// Use metrics routes
+app.use('/metrics', metricsRoutes);
 
 // Error Handler
 app.use(errorHandler);
