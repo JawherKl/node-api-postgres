@@ -38,7 +38,6 @@ This is a modern RESTful API built with **Node.js** and **Express**, designed to
 - **Chai** (Assertion library)
 
 ## Installation 🛠️
-
 ### Step 1: Clone the Repository
 ```bash
 git clone https://github.com/JawherKl/node-api-postgres.git
