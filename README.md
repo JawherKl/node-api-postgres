@@ -112,6 +112,8 @@ Once the server is running, you can access the auto-generated API documentation 
 - **DELETE /users/:id** - Delete a user by ID.
 - **POST /login** - Authenticate a user and return a JWT (requires JSON body with email and password).
 
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/31522917-54350f46-dd5e-4a62-9dc2-4346a7879692?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D31522917-54350f46-dd5e-4a62-9dc2-4346a7879692%26entityType%3Dcollection%26workspaceId%3D212c8589-8dd4-4f19-9a53-e77403c6c7d9)
+
 ## Example Requests 📝
 
 ### Get All Users
