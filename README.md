@@ -4,6 +4,11 @@
 
 This is a modern RESTful API built with **Node.js** and **Express**, designed to interact with a **PostgreSQL** database. The API provides various endpoints for managing user data, with additional features like authentication, JWT protection, soft deletion, and automated testing. We've also integrated **Swagger** for auto-generated API documentation.
 
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
+
 ## Features 🚀
 - **User Management**:
   - **Get All Users**: Retrieve a list of all users.
