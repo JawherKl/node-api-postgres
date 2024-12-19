@@ -81,6 +81,18 @@ CREATE TABLE users (
 );
 ```
 
+```sql
+CREATE TABLE metrics (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    metric_name VARCHAR(255) NOT NULL,
+    metric_value FLOAT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);
+```
+
 ### Column Explanation
 - `id`: Unique identifier for each user (auto-increment).
 - `name`: User's name (max 100 characters).
