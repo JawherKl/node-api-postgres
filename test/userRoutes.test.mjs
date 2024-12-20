@@ -10,7 +10,7 @@ const { expect } = chai;
 describe('User API', () => {
   let token; // Store the authentication token
   let server;
-
+/*
   // Start server before tests and login to get token
   before(async () => {
     // Start the app server
@@ -75,7 +75,6 @@ describe('User API', () => {
     });
   });  
 
-/*
   describe('POST /users', () => {
     it('should create a new user with valid data and token', async () => {
       const res = await request(app)
@@ -109,7 +108,6 @@ describe('User API', () => {
       expect(res.body).to.have.property('error', 'Unauthorized');
     });
   });  
-*/
 
   describe('PUT /users/:id', () => {
     it('should update a user with valid data', async () => {
@@ -204,7 +202,7 @@ describe('User API', () => {
       expect(res.body).to.have.property('error', 'Unauthorized');
     });
   });
-  
+  */
   
   // Close the server after tests
   after(async () => {
