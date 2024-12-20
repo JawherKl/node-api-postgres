@@ -20,7 +20,11 @@ const getUsers = async (req, res, next) => {
 
 const getUserById = async (req, res, next) => {
   try {
-    const user = await User.getById(req.params.id);
+    const userId = parseInt(req.params.id, 10); // Ensure userId is a number
+    if (isNaN(userId)) {
+      return res.status(400).json({ error: 'Invalid user ID' });
+    }
+    const user = await User.getById(userId);
     if (!user) return res.status(404).json({ message: 'User not found' });
     res.status(200).json(user);
   } catch (error) {
@@ -46,18 +50,50 @@ const createUser = async (req, res, next) => {
 };
 
 const updateUser = async (req, res, next) => {
+  const { id } = req.params;
+  const { name, email, password } = req.body;
+
+  if (!email || !email.match(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/)) {
+    return res.status(400).json({ error: 'Invalid email format' });
+  }
+
   try {
-    await User.update(req.params.id, req.body);
-    res.status(200).json({ message: `User modified with ID: ${req.params.id}` });
+    const user = await User.getById(id);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Assuming `User.update` returns the updated user
+    await User.update(id, { name, email, password });
+
+    // If `User.update` doesn't return the full user object, fetch it again
+    const updatedUserDetails = await User.getById(id);
+
+    return res.status(200).json({
+      message: `User modified with ID: ${id}`,
+      user: updatedUserDetails,  // return the updated user object
+    });
   } catch (error) {
     next(error);
   }
 };
 
 const deleteUser = async (req, res, next) => {
+  const { id } = req.params;
+
+  // Ensure that the ID is a valid integer
+  if (!Number.isInteger(Number(id))) {
+    return res.status(400).json({ error: 'Invalid user ID format' });
+  }
+
   try {
-    await User.delete(req.params.id);
-    res.status(200).json({ message: `User soft deleted with ID: ${req.params.id}` });
+    const user = await User.getById(id);  // Check if the user exists
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    await User.delete(id);  // Proceed with the deletion
+    res.status(200).json({ message: `User soft deleted with ID: ${id}` });
   } catch (error) {
     next(error);
   }
