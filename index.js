@@ -13,7 +13,9 @@ const { swaggerUi, swaggerSpec } = require('./config/swagger'); // Import Swagge
 const metricsRoutes = require('./routes/metricsRoutes');
 const { trackRequests } = require('./controllers/metricsController');
 
-dotenv.config();
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV || 'dev'}`,
+});
 
 const app = express();
 const port = process.env.PORT || 3000;
