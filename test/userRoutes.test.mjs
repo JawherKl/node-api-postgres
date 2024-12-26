@@ -79,7 +79,7 @@ describe('User API', () => {
     });
   });  
 
-  /*describe('POST /users', () => {
+  describe('POST /users', () => {
     it('should create a new user with valid data and token', async () => {
       const filePath = path.join(__dirname, 'fixtures/sample-profile-pic.jpg');
 
@@ -113,7 +113,7 @@ describe('User API', () => {
       expect(res.status).to.equal(401);
       expect(res.body).to.have.property('error', 'Unauthorized');
     });
-  });  */
+  });
 
   describe('PUT /users/:id', () => {
     it('should update a user with valid data', async () => {
