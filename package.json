@@ -53,8 +53,8 @@
         ]
     },
     "scripts": {
-        "test": "DEBUG=module:* nyc mocha --require @babel/register",
-        "start": "node src/index.js",
-        "dev": "nodemon src/index.js"
+        "test": "NODE_ENV=test DEBUG=module:* nyc mocha --require @babel/register",
+        "start": "node index.js",
+        "dev": "nodemon index.js"
     }
 }
