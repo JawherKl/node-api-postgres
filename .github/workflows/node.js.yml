@@ -1,3 +1,6 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
 name: Node.js CI
 
 on:
@@ -5,14 +8,21 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
+    
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: bookdb_owner
+          POSTGRES_PASSWORD: FDXS5CHc1sRa
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+        options: --health-cmd "pg_isready -U bookdb_owner" --health-timeout 5s --health-start-period 5s
 
     steps:
     - uses: actions/checkout@v4
@@ -21,17 +31,10 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-
-    - name: Install dependencies
-      run: npm ci
-
+    - run: npm ci
     - name: Set up environment variables
       env:
-        DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      run: echo "Environment variable DATABASE_URL has been set."
-
-    - name: Build project
-      run: npm run build --if-present
-
-    - name: Run tests
-      run: npm test
+        DATABASE_URL: postgresql://bookdb_owner:FDXS5CHc1sRa@localhost:5432/testdb
+      run: echo "Database connection is set."
+    - run: npm run build --if-present
+    - run: npm test
