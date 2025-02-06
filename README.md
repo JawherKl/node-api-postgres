@@ -107,7 +107,7 @@ CREATE TABLE metrics (
 
 ### Start the Server
 ```bash
-node index.js
+npm start
 ```
 The server will run on [http://localhost:3000].
 
