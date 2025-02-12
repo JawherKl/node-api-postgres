@@ -1,4 +1,9 @@
 # Express - Node.js API with PostgreSQL
+![Repository Size](https://img.shields.io/github/repo-size/JawherKl/node-api-postgres)
+![Last Commit](https://img.shields.io/github/last-commit/JawherKl/node-api-postgres)
+![Issues](https://img.shields.io/github/issues-raw/JawherKl/node-api-postgres)
+![Forks](https://img.shields.io/github/forks/JawherKl/node-api-postgres)
+![Stars](https://img.shields.io/github/stars/JawherKl/node-api-postgres)
 
 ![nodepost](https://github.com/user-attachments/assets/6f206c6e-dea0-4045-8baa-a04e74a5fbf8)
 
