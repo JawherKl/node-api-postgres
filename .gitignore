@@ -130,3 +130,4 @@ dist
 .pnp.*
 .clinic/
 features.md
+.qodo

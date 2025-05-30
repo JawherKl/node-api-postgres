@@ -8,6 +8,7 @@ const authController = require('../controllers/authController');
  *   post:
  *     summary: Login an existing user
  *     description: Authenticates the user and returns a JWT token
+ *     security: []
  *     requestBody:
  *       required: true
  *       content:
@@ -17,16 +18,11 @@ const authController = require('../controllers/authController');
  *             properties:
  *               email:
  *                 type: string
- *                 description: The user's email
  *               password:
  *                 type: string
- *                 description: The user's password
- *             required:
- *               - email
- *               - password
  *     responses:
  *       200:
- *         description: JWT token returned after successful login
+ *         description: Login successful
  *         content:
  *           application/json:
  *             schema:
@@ -34,13 +30,9 @@ const authController = require('../controllers/authController');
  *               properties:
  *                 token:
  *                   type: string
- *                   description: The JWT token for authentication
- *       400:
- *         description: Bad request (invalid input)
+ *                   description: JWT token to be used for authentication
  *       401:
- *         description: Unauthorized (incorrect credentials)
- *       500:
- *         description: Server error
+ *         description: Invalid credentials
  */
 router.post('/login', authController.login);
 
