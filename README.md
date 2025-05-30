@@ -26,6 +26,7 @@ This is a modern RESTful API built with **Node.js** and **Express**, designed to
 - **Authentication & Authorization**:
   - **User Authentication**: Secure API access using **JSON Web Tokens (JWT)**.
   - **Role-based Access Control (RBAC)**: Control access to resources based on user roles (e.g., admin, user).
+  - **Password Reset**: Secure password reset functionality with time-limited tokens and email verification using **SendGrid**.
 
 - **Swagger API Documentation**:
   - **Swagger** integrated for real-time API documentation and testing directly in the browser. Access the documentation at: [http://localhost:3000/api-docs](http://localhost:3000/api-docs).
@@ -129,6 +130,8 @@ Once the server is running, you can access the auto-generated API documentation 
 - **PUT /users/:id** - Update an existing user by ID (requires JSON body).
 - **DELETE /users/:id** - Delete a user by ID.
 - **POST /login** - Authenticate a user and return a JWT (requires JSON body with email and password).
+- **POST /forgot-password** - Request a password reset link (requires email in JSON body).
+- **POST /reset-password/:token** - Reset password using the token received via email.
 
 [<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/31522917-54350f46-dd5e-4a62-9dc2-4346a7879692?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D31522917-54350f46-dd5e-4a62-9dc2-4346a7879692%26entityType%3Dcollection%26workspaceId%3D212c8589-8dd4-4f19-9a53-e77403c6c7d9)
 
@@ -157,6 +160,16 @@ curl -X DELETE http://localhost:3000/users/1
 ### Authenticate User
 ```bash
 curl -X POST http://localhost:3000/login -H "Content-Type: application/json" -d '{"email": "john@example.com", "password": "password"}'
+```
+
+### Request Password Reset
+```bash
+curl -X POST http://localhost:3000/forgot-password -H "Content-Type: application/json" -d '{"email": "john@example.com"}'
+```
+
+### Reset Password (using token from email)
+```bash
+curl -X POST http://localhost:3000/reset-password/your_reset_token -H "Content-Type: application/json" -d '{"password": "new_password"}'
 ```
 
 ### Access Protected Route

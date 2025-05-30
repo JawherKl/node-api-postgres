@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const authController = require('../controllers/authController');
+const { login, register, forgotPassword, resetPassword } = require('../controllers/authController');
 
 /**
  * @swagger
@@ -23,18 +23,8 @@ const authController = require('../controllers/authController');
  *     responses:
  *       200:
  *         description: Login successful
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 token:
- *                   type: string
- *                   description: JWT token to be used for authentication
- *       401:
- *         description: Invalid credentials
  */
-router.post('/login', authController.login);
+router.post('/login', login);
 
 /**
  * @swagger
@@ -78,6 +68,22 @@ router.post('/login', authController.login);
  *       500:
  *         description: Server error
  */
-router.post('/register', authController.register);
+router.post('/register', register);
+
+/**
+ * @swagger
+ * /forgot-password:
+ *   post:
+ *     summary: Request password reset
+ */
+router.post('/forgot-password', forgotPassword);
+
+/**
+ * @swagger
+ * /reset-password/{token}:
+ *   post:
+ *     summary: Reset password with token
+ */
+router.post('/reset-password/:token', resetPassword);
 
 module.exports = router;
