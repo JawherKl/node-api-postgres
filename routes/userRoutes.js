@@ -1,87 +1,107 @@
 const express = require('express');
 const userController = require('../controllers/userController');
-const authenticateToken = require('../middleware/auth');
-const authorize = require('../middleware/authorize');
+const auth = require('../middleware/auth');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 
 const router = express.Router();
 
 /**
- * @swagger
+ * @openapi
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         email:
+ *           type: string
+ *         password:
+ *           type: string
+ *         profile_picture:
+ *           type: string
+ *           format: binary
+ * 
  * /users:
  *   get:
- *     summary: Retrieve all users
- *     description: Returns a list of all users
+ *     tags:
+ *       - Users
+ *     summary: Get all users
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: A list of users
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                   name:
- *                     type: string
- *                   email:
- *                     type: string
+ *         description: List of users retrieved successfully
  *       401:
- *         description: Unauthorized access
- *       500:
- *         description: Server error
- */
-router.get('/', authenticateToken, userController.getUsers);
-
-/**
- * @swagger
+ *         description: Unauthorized - invalid token
+ * 
+ *   post:
+ *     tags:
+ *       - Users
+ *     summary: Create a new user
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               picture:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ *       401:
+ *         description: Unauthorized - invalid token
+ * 
  * /users/{id}:
  *   get:
- *     summary: Retrieve a user by ID
- *     description: Returns a single user identified by their ID
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         description: The ID of the user to retrieve
- *         schema:
- *           type: integer
+ *     tags:
+ *       - Users
+ *     summary: Get user by ID
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
- *         description: User details
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                 name:
- *                   type: string
- *                 email:
- *                   type: string
+ *         description: User found successfully
  *       401:
- *         description: Unauthorized access
+ *         description: Unauthorized - invalid token
  *       404:
  *         description: User not found
- *       500:
- *         description: Server error
- */
-router.get('/:id', authenticateToken, userController.getUserById);
-
-/**
- * @swagger
- * /users:
- *   post:
- *     summary: Create a new user
- *     description: Creates a new user in the system
+ * 
+ *   put:
+ *     tags:
+ *       - Users
+ *     summary: Update user
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
  *     requestBody:
  *       required: true
  *       content:
@@ -95,103 +115,39 @@ router.get('/:id', authenticateToken, userController.getUserById);
  *                 type: string
  *               password:
  *                 type: string
- *             required:
- *               - name
- *               - email
- *               - password
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       201:
- *         description: User created successfully
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                 userId:
- *                   type: integer
- *       400:
- *         description: Validation error
- *       401:
- *         description: Unauthorized access
- *       500:
- *         description: Server error
- */
-router.post('/', authenticateToken, upload.single('picture'), userController.createUser);
-
-/**
- * @swagger
- * /users/{id}:
- *   put:
- *     summary: Update an existing user
- *     description: Updates the details of an existing user by ID
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         description: The ID of the user to update
- *         schema:
- *           type: integer
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               email:
- *                 type: string
- *             required:
- *               - name
- *               - email
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: User updated successfully
- *       400:
- *         description: Bad request, validation error
  *       401:
- *         description: Unauthorized access
+ *         description: Unauthorized - invalid token
  *       404:
  *         description: User not found
- *       500:
- *         description: Server error
- */
-router.put('/:id', authenticateToken, userController.updateUser);
-
-/**
- * @swagger
- * /users/{id}:
+ * 
  *   delete:
- *     summary: Delete a user by ID
- *     description: Deletes a user from the system by their ID
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         description: The ID of the user to delete
- *         schema:
- *           type: integer
+ *     tags:
+ *       - Users
+ *     summary: Delete user
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
  *         description: User deleted successfully
  *       401:
- *         description: Unauthorized access
- *       403:
- *         description: Forbidden, insufficient privileges
+ *         description: Unauthorized - invalid token
  *       404:
  *         description: User not found
- *       500:
- *         description: Server error
  */
-router.delete('/:id', authenticateToken, authorize('admin'), userController.deleteUser);
+
+router.get('/', auth, userController.getUsers);
+router.post('/', auth, upload.single('picture'), userController.createUser);
+router.get('/:id', auth, userController.getUserById);
+router.put('/:id', auth, userController.updateUser);
+router.delete('/:id', auth, userController.deleteUser);
 
 module.exports = router;
