@@ -48,6 +48,14 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Password reset route
+app.get('/reset-password/:token', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'reset-password.html'));
+});
+
 // Routes
 app.use('/users', userRoutes);
 
