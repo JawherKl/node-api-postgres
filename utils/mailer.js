@@ -1,6 +1,5 @@
 const sgMail = require('@sendgrid/mail');
 
-// Initialize SendGrid with your API key
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const sendEmail = async ({ to, subject, text, html }) => {
