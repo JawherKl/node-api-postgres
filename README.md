@@ -8,6 +8,7 @@
 
 ![nodepost](https://github.com/user-attachments/assets/6f206c6e-dea0-4045-8baa-a04e74a5fbf8)
 
+## ✨ Overview
 This is a modern RESTful API built with **Node.js** and **Express**, designed to interact with a **PostgreSQL** database. The API provides various endpoints for managing user data, with additional features like authentication, JWT protection, soft deletion, and automated testing. We've also integrated **Swagger** for auto-generated API documentation.
 
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
@@ -15,7 +16,152 @@ This is a modern RESTful API built with **Node.js** and **Express**, designed to
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
 
-## Features 🚀
+## 🏗️ Architecture
+
+```mermaid
+flowchart TB
+    %% Clients
+    Clients["Clients (Web/Mobile/CLI)"]:::client
+
+    %% Docker Container Boundary
+    subgraph "Docker Container" 
+        direction TB
+        index["index.js\n(Express App Init)"]:::server
+        click index "https://github.com/jawherkl/node-api-postgres/blob/main/index.js"
+
+        %% Configuration Layer
+        subgraph "Configuration Layer" 
+            direction TB
+            dbConfig["config/db.js"]:::config
+            click dbConfig "https://github.com/jawherkl/node-api-postgres/blob/main/config/db.js"
+            swaggerSetup["config/swagger.js"]:::config
+            click swaggerSetup "https://github.com/jawherkl/node-api-postgres/blob/main/config/swagger.js"
+            swaggerSpec["config/swagger.json"]:::config
+            click swaggerSpec "https://github.com/jawherkl/node-api-postgres/blob/main/config/swagger.json"
+        end
+
+        %% Routing Layer
+        subgraph "Routing Layer" 
+            direction TB
+            loginRoutes["routes/loginRoutes.js"]:::routes
+            click loginRoutes "https://github.com/jawherkl/node-api-postgres/blob/main/routes/loginRoutes.js"
+            userRoutes["routes/userRoutes.js"]:::routes
+            click userRoutes "https://github.com/jawherkl/node-api-postgres/blob/main/routes/userRoutes.js"
+            metricsRoutes["routes/metricsRoutes.js"]:::routes
+            click metricsRoutes "https://github.com/jawherkl/node-api-postgres/blob/main/routes/metricsRoutes.js"
+        end
+
+        %% Controller Layer
+        subgraph "Controller Layer"
+            direction TB
+            authController["controllers/authController.js"]:::controller
+            click authController "https://github.com/jawherkl/node-api-postgres/blob/main/controllers/authController.js"
+            userController["controllers/userController.js"]:::controller
+            click userController "https://github.com/jawherkl/node-api-postgres/blob/main/controllers/userController.js"
+            metricsController["controllers/metricsController.js"]:::controller
+            click metricsController "https://github.com/jawherkl/node-api-postgres/blob/main/controllers/metricsController.js"
+        end
+
+        %% Middleware Pipeline
+        subgraph "Middleware Pipeline"
+            direction TB
+            jwtAuth["middleware/auth.js"]:::middleware
+            click jwtAuth "https://github.com/jawherkl/node-api-postgres/blob/main/middleware/auth.js"
+            rbacAuth["middleware/authorize.js"]:::middleware
+            click rbacAuth "https://github.com/jawherkl/node-api-postgres/blob/main/middleware/authorize.js"
+            upload["middleware/upload.js"]:::middleware
+            click upload "https://github.com/jawherkl/node-api-postgres/blob/main/middleware/upload.js"
+            errorHandler["middleware/errorHandler.js"]:::middleware
+            click errorHandler "https://github.com/jawherkl/node-api-postgres/blob/main/middleware/errorHandler.js"
+        end
+
+        %% Data Access Layer
+        subgraph "Data Access Layer"
+            direction TB
+            userModel["models/user.js"]:::model
+            click userModel "https://github.com/jawherkl/node-api-postgres/blob/main/models/user.js"
+            metricsModel["models/metrics.js"]:::model
+            click metricsModel "https://github.com/jawherkl/node-api-postgres/blob/main/models/metrics.js"
+        end
+
+        %% Utility Services
+        subgraph "Utility Services"
+            direction TB
+            mailer["utils/mailer.js"]:::util
+            click mailer "https://github.com/jawherkl/node-api-postgres/blob/main/utils/mailer.js"
+            logger["utils/logger.js"]:::util
+            click logger "https://github.com/jawherkl/node-api-postgres/blob/main/utils/logger.js"
+        end
+
+        %% Static Assets & Storage
+        subgraph "Static & Storage"
+            direction TB
+            resetPage["public/reset-password.html"]:::static
+            click resetPage "https://github.com/jawherkl/node-api-postgres/blob/main/public/reset-password.html"
+            uploadsDir["uploads/"]:::infra
+            click uploadsDir "https://github.com/jawherkl/node-api-postgres/tree/main/uploads/"
+        end
+
+        %% Exposed Swagger UI
+        swaggerUI["Swagger UI\n(/api-docs)"]:::server
+    end
+
+    %% External Services & Infrastructure
+    postgres[(PostgreSQL Database 5432)]:::external
+    sendgrid[(SendGrid Email Service)]:::external
+    prometheus[(Prometheus)]:::external
+    dockerfile["Dockerfile"]:::infra
+    click dockerfile "https://github.com/jawherkl/node-api-postgres/tree/main/Dockerfile"
+    compose["docker-compose.yml"]:::infra
+    click compose "https://github.com/jawherkl/node-api-postgres/blob/main/docker-compose.yml"
+    promConfig["prometheus.yml"]:::infra
+    click promConfig "https://github.com/jawherkl/node-api-postgres/blob/main/prometheus.yml"
+
+    %% Connections
+    Clients -->|"HTTP|JSON"| index
+    index -->|"load"| dbConfig
+    index -->|"load"| swaggerSetup
+    swaggerSetup -->|"uses"| swaggerSpec
+    index -->|"mount"| loginRoutes
+    index -->|"mount"| userRoutes
+    index -->|"mount"| metricsRoutes
+    loginRoutes -->|"calls"| authController
+    userRoutes -->|"calls"| userController
+    metricsRoutes -->|"calls"| metricsController
+    index -->|"use"| jwtAuth
+    index -->|"use"| rbacAuth
+    index -->|"use"| upload
+    index -->|"use"| errorHandler
+    authController -->|"DB ops"| userModel
+    userController -->|"DB ops"| userModel
+    metricsController -->|"DB ops"| metricsModel
+    authController -->|"send email"| mailer
+    metricsController -->|"log metrics"| logger
+    metricsController -->|"expose /metrics"| prometheus
+    index -->|"serve UI"| swaggerUI
+    index -->|"serve file"| resetPage
+    index -->|"write/read"| uploadsDir
+    userModel -->|"SQL"| postgres
+    metricsModel -->|"SQL"| postgres
+    index -->|"HTTP"| postgres
+    index -->|"SMTP/HTTP"| sendgrid
+    prometheus -->|"scrape /metrics"| index
+
+    %% Styles
+    classDef client fill:#f9f,stroke:#333
+    classDef server fill:#bbf,stroke:#333
+    classDef config fill:#dfd,stroke:#333
+    classDef routes fill:#ffd,stroke:#333
+    classDef controller fill:#fdc,stroke:#333
+    classDef middleware fill:#ffc,stroke:#333
+    classDef model fill:#cdf,stroke:#333
+    classDef util fill:#ddf,stroke:#333
+    classDef static fill:#fcf,stroke:#333
+    classDef external fill:#bfb,stroke:#333
+    classDef infra fill:#fbf,stroke:#333
+```
+
+## 🚀 Features
 - **User Management**:
   - **Get All Users**: Retrieve a list of all users.
   - **Get User by ID**: Retrieve a specific user by their ID.
@@ -49,7 +195,7 @@ This is a modern RESTful API built with **Node.js** and **Express**, designed to
 - **Mocha** (Testing framework)
 - **Chai** (Assertion library)
 
-## Installation 🛠️
+## 🛠️ Installation
 ### Step 1: Clone the Repository
 ```bash
 git clone https://github.com/JawherKl/node-api-postgres.git
@@ -110,7 +256,7 @@ CREATE TABLE metrics (
 - `updated_at`: Timestamp for last update (auto-updates on modification).
 - `deleted_at`: Nullable timestamp for soft deletion.
 
-## Usage 🏃‍♂️
+## 🏃‍♂️ Usage
 
 ### Start the Server
 ```bash
@@ -135,7 +281,7 @@ Once the server is running, you can access the auto-generated API documentation 
 
 [<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/31522917-54350f46-dd5e-4a62-9dc2-4346a7879692?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D31522917-54350f46-dd5e-4a62-9dc2-4346a7879692%26entityType%3Dcollection%26workspaceId%3D212c8589-8dd4-4f19-9a53-e77403c6c7d9)
 
-## Example Requests 📝
+## 📝 Example Requests
 
 ### Get All Users
 ```bash
@@ -177,7 +323,7 @@ curl -X POST http://localhost:3000/reset-password/your_reset_token -H "Content-T
 curl -X GET http://localhost:3000/users -H "Authorization: Bearer your_jwt_token"
 ```
 
-## Unit Testing 🧪
+## 🧪 Unit Testing
 Unit tests are implemented using **Mocha** and **Chai**. To run tests:
 
 1. Install **test dependencies** (if not installed):
@@ -192,13 +338,13 @@ Unit tests are implemented using **Mocha** and **Chai**. To run tests:
    
 This will run all tests and output the results to the console. You can find the test cases for different routes and operations in the `test` folder.
 
-## Contributing 🤝
+## 🤝 Contributing
 Contributions are welcome! If you have suggestions, improvements, or bug fixes, please open an issue or submit a pull request.
 
 ## License 📝
 This project is licensed under the **MIT License**. See the [LICENSE](./LICENSE) file for details.
 
-## Acknowledgments 🙏
+## 🙏 Acknowledgments
 - Special thanks to all contributors and the open-source community.
 - Gratitude to the maintainers of the libraries used in this project.
 
