@@ -185,7 +185,7 @@ flowchart TB
   - Comprehensive unit tests using **Mocha** and **Chai** to ensure the reliability of the application.
   - **Test Cases**: Includes tests for user creation, update, deletion, and authentication.
 
-## Technologies Used ⚙️
+## ⚙️ Technologies Used
 - **Node.js** (JavaScript runtime)
 - **Express** (Web framework)
 - **PostgreSQL** (Database)
@@ -268,7 +268,7 @@ The server will run on [http://localhost:3000].
 Once the server is running, you can access the auto-generated API documentation powered by Swagger at:
 [http://localhost:3000/api-docs](http://localhost:3000/api-docs).
 
-## API Endpoints 📡
+## 📡 API Endpoints
 - **GET /** - Returns a simple welcome message.
 - **GET /users** - Get all users.
 - **GET /users/:id** - Get a user by ID.
