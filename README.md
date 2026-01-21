@@ -350,4 +350,3 @@ This project is licensed under the **MIT License**. See the [LICENSE](./LICENSE)
 
 ## Stargazers over time
 [![Stargazers over time](https://starchart.cc/JawherKl/node-api-postgres.svg?variant=adaptive)](https://starchart.cc/JawherKl/node-api-postgres)
-
