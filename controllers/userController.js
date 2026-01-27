@@ -30,10 +30,10 @@ const createUser = async (req, res) => {
   if (error) {
     return res.status(400).json({ error: error.details[0].message });
   }
-  if (!req.file) {
-    return res.status(400).json({ error: "Profile picture is required" });
-  }
-  value.picture = req.file.filename; // Add uploaded filename to user data
+  //if (!req.file) {
+    //return res.status(400).json({ error: "Profile picture is required" });
+  //}
+  //value.picture = req.file.filename; // Add uploaded filename to user data
   const userId = await User.create(value);
   res.status(201).json({ message: "User added", userId });
 };
