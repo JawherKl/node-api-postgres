@@ -1,6 +1,35 @@
 version: "3.3"
 
 services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: node_api_db
+    ports:
+      - "5400:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5404:80"
+    depends_on:
+      - db
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    restart: always
+
   node-api:
     build:
       context: .
@@ -9,9 +38,11 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: development
-      DATABASE_URL: postgresql://postgres:postgres@host.docker.internal:5450/node_api_db
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/node_api_db
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    depends_on:
+      - db
 
   prometheus:
     image: prom/prometheus
@@ -31,4 +62,6 @@ services:
       - grafana-storage:/var/lib/grafana
 
 volumes:
+  postgres-data:
+  pgadmin-data:
   grafana-storage:
