@@ -29,7 +29,7 @@ services:
     restart: always
     networks:
       node-network:
-        ipv4_address: 172.30.0.12
+        ipv4_address: 172.30.0.11
 
   node-api:
     build:
@@ -46,7 +46,7 @@ services:
       - db
     networks:
       node-network:
-        ipv4_address: 172.30.0.11
+        ipv4_address: 172.30.0.12
 
   prometheus:
     image: prom/prometheus
