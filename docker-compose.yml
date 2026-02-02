@@ -11,11 +11,9 @@ services:
       - "5400:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    networks:
+      node-network:
+        ipv4_address: 172.30.0.10
 
   pgadmin:
     image: dpage/pgadmin4
@@ -29,6 +27,9 @@ services:
     volumes:
       - pgadmin-data:/var/lib/pgadmin
     restart: always
+    networks:
+      node-network:
+        ipv4_address: 172.30.0.12
 
   node-api:
     build:
@@ -43,6 +44,9 @@ services:
       - "host.docker.internal:host-gateway"
     depends_on:
       - db
+    networks:
+      node-network:
+        ipv4_address: 172.30.0.11
 
   prometheus:
     image: prom/prometheus
@@ -60,6 +64,13 @@ services:
       GF_SECURITY_ADMIN_PASSWORD: admin
     volumes:
       - grafana-storage:/var/lib/grafana
+
+networks:
+  node-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/16
 
 volumes:
   postgres-data:
