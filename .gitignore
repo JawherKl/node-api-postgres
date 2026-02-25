@@ -131,3 +131,6 @@ dist
 .clinic/
 features.md
 .qodo
+.env
+*.key
+config/secrets*
