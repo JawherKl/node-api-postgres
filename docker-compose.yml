@@ -1,14 +1,16 @@
-version: "3.3"
+version: "3.8"
 
 services:
   db:
     image: postgres:15
+    container_name: vn_folk_db
+    restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: node_api_db
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me}
+      POSTGRES_DB: ${POSTGRES_DB:-vn_folk}
     ports:
-      - "5400:5432"
+      - "5437:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:
@@ -17,16 +19,17 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
+    container_name: vn_folk_pgadmin
+    restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@example.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-change_me}
     ports:
       - "5404:80"
     depends_on:
       - db
     volumes:
       - pgadmin-data:/var/lib/pgadmin
-    restart: always
     networks:
       node-network:
         ipv4_address: 172.30.0.11
@@ -35,11 +38,27 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: vn_folk_api
+    restart: always
     ports:
       - "3000:3000"
     environment:
       NODE_ENV: development
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/node_api_db
+      PORT: 3000
+
+      DB_USER: ${DB_USER:-postgres}
+      DB_HOST: db
+      DB_DATABASE: ${DB_DATABASE:-vn_folk}
+      DB_PASSWORD: ${DB_PASSWORD:-change_me}
+      DB_PORT: ${DB_PORT:-5432}
+
+      JWT_SECRET: ${JWT_SECRET:-change_me}
+      JWT_EXPIRATION_TIME: ${JWT_EXPIRATION_TIME:-86400}
+
+      EMAIL_USER: ${EMAIL_USER:-noreply@example.com}
+      EMAIL_PASS: ${EMAIL_PASS:-change_me}
+
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:change_me@db:5432/vn_folk}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
@@ -50,20 +69,30 @@ services:
 
   prometheus:
     image: prom/prometheus
+    container_name: vn_folk_prometheus
+    restart: always
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
+    networks:
+      node-network:
+        ipv4_address: 172.30.0.13
 
   grafana:
     image: grafana/grafana
+    container_name: vn_folk_grafana
+    restart: always
     ports:
       - "3001:3000"
     environment:
-      GF_SECURITY_ADMIN_USER: admin
-      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_SECURITY_ADMIN_USER: ${GF_SECURITY_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GF_SECURITY_ADMIN_PASSWORD:-change_me}
     volumes:
       - grafana-storage:/var/lib/grafana
+    networks:
+      node-network:
+        ipv4_address: 172.30.0.14
 
 networks:
   node-network:
