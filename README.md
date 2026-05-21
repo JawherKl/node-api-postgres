@@ -1,4 +1,4 @@
-# Express - Node.js API with PostgreSQL
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=150&section=header&text=Express%20-%20Node.js%20API%20with%20PostgreSQL%20&fontSize=30&fontColor=fff&animation=twinkling&fontAlignY=40&desc=&descAlignY=65&descSize=18" />
 
 ![Repository Size](https://img.shields.io/github/repo-size/JawherKl/node-api-postgres)
 ![Last Commit](https://img.shields.io/github/last-commit/JawherKl/node-api-postgres)
