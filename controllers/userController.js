@@ -1,13 +1,14 @@
-require('express-async-errors');
-const User = require('../models/user');
-const Joi = require('joi');
-const logger = require('../utils/logger');
+require("express-async-errors");
+const User = require("../models/user");
+const Joi = require("joi");
+const logger = require("../utils/logger");
 
 // Validation schemas
 const userSchema = Joi.object({
   name: Joi.string().min(3).required(),
   email: Joi.string().email().required(),
   password: Joi.string().min(8).required(),
+  picture: Joi.any().optional(),
 });
 
 const getUsers = async (req, res) => {
@@ -18,10 +19,10 @@ const getUsers = async (req, res) => {
 const getUserById = async (req, res) => {
   const userId = parseInt(req.params.id, 10); // Ensure userId is a number
   if (isNaN(userId)) {
-    return res.status(400).json({ error: 'Invalid user ID' });
+    return res.status(400).json({ error: "Invalid user ID" });
   }
   const user = await User.getById(userId);
-  if (!user) return res.status(404).json({ message: 'User not found' });
+  if (!user) return res.status(404).json({ message: "User not found" });
   res.status(200).json(user);
 };
 
@@ -30,10 +31,7 @@ const createUser = async (req, res) => {
   if (error) {
     return res.status(400).json({ error: error.details[0].message });
   }
-  //if (!req.file) {
-    //return res.status(400).json({ error: "Profile picture is required" });
-  //}
-  //value.picture = req.file.filename; // Add uploaded filename to user data
+  value.picture = req.file ? req.file.filename : null;
   const userId = await User.create(value);
   res.status(201).json({ message: "User added", userId });
 };
@@ -43,12 +41,12 @@ const updateUser = async (req, res) => {
   const { name, email, password } = req.body;
 
   if (!email || !email.match(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/)) {
-    return res.status(400).json({ error: 'Invalid email format' });
+    return res.status(400).json({ error: "Invalid email format" });
   }
 
   const user = await User.getById(id);
   if (!user) {
-    return res.status(404).json({ error: 'User not found' });
+    return res.status(404).json({ error: "User not found" });
   }
 
   // Assuming `User.update` returns the updated user
@@ -59,7 +57,7 @@ const updateUser = async (req, res) => {
 
   return res.status(200).json({
     message: `User modified with ID: ${id}`,
-    user: updatedUserDetails,  // return the updated user object
+    user: updatedUserDetails, // return the updated user object
   });
 };
 
@@ -68,15 +66,15 @@ const deleteUser = async (req, res) => {
 
   // Ensure that the ID is a valid integer
   if (!Number.isInteger(Number(id))) {
-    return res.status(400).json({ error: 'Invalid user ID format' });
+    return res.status(400).json({ error: "Invalid user ID format" });
   }
 
-  const user = await User.getById(id);  // Check if the user exists
+  const user = await User.getById(id); // Check if the user exists
   if (!user) {
-    return res.status(404).json({ error: 'User not found' });
+    return res.status(404).json({ error: "User not found" });
   }
 
-  await User.delete(id);  // Proceed with the deletion
+  await User.delete(id); // Proceed with the deletion
   res.status(200).json({ message: `User soft deleted with ID: ${id}` });
 };
 
