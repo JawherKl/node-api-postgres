@@ -348,5 +348,12 @@ This project is licensed under the **MIT License**. See the [LICENSE](./LICENSE)
 - Special thanks to all contributors and the open-source community.
 - Gratitude to the maintainers of the libraries used in this project.
 
-## Stargazers over time
-[![Stargazers over time](https://starchart.cc/JawherKl/node-api-postgres.svg?variant=adaptive)](https://starchart.cc/JawherKl/node-api-postgres)
+## Star History
+
+<a href="https://www.star-history.com/?repos=jawherkl%2Fnode-api-postgres&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=jawherkl/node-api-postgres&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=jawherkl/node-api-postgres&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=jawherkl/node-api-postgres&type=date&legend=top-left" />
+ </picture>
+</a>
